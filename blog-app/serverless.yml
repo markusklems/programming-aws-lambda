@@ -36,11 +36,29 @@ provider:
 
 functions:
   createArticle:
-    handler: handler.createArticle
+    handler: articles/create.handler
     events:
       - http:
-          path: createArticle
+          path: articles
           method: post
+  readArticle:
+    handler: articles/read.handler
+    events:
+      - http:
+          path: articles
+          method: get
+  updateArticle:
+    handler: articles/update.handler
+    events:
+      - http:
+          path: articles
+          method: put
+  deleteArticle:
+    handler: articles/delete.handler
+    events:
+      - http:
+          path: articles
+          method: delete
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
 #      - sns: greeter-topic
