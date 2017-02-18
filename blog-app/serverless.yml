@@ -50,24 +50,68 @@ functions:
       - http:
           path: articles
           method: post
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-My-Cognito-Id
+            allowCredentials: true
   readArticle:
     handler: articles/read.handler
     events:
       - http:
           path: articles
           method: get
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-My-Cognito-Id
+            allowCredentials: true
   updateArticle:
     handler: articles/update.handler
     events:
       - http:
           path: articles
           method: put
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-My-Cognito-Id
+            allowCredentials: true
   deleteArticle:
     handler: articles/delete.handler
     events:
       - http:
           path: articles
           method: delete
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-My-Cognito-Id
+            allowCredentials: true
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
 #      - sns: greeter-topic

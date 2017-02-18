@@ -15,7 +15,13 @@ const createArticle = (event, context, callback) => {
     const body = JSON.parse(event.body);
     const id = uuid.v1();
     const text = body.text;
-    const user_id = context.identity.cognitoIdentityId;
+    let user_id = "no_cognito"
+    if (context.identity && context.identity.cognitoIdentityId) {
+        user_id = context.identity.cognitoIdentityId;
+    } else if (event.headers['X-My-Cognito-Id']) {
+        user_id = event.headers['X-My-Cognito-Id'];
+    }
+    console.log("event", event);
     return new Article(id, user_id, text);
 }
 
@@ -32,7 +38,12 @@ const updateArticle = (event, callback) => {
     const body = JSON.parse(event.body);
     const id = body.article_id;
     const text = body.text;
-    const user_id = context.identity.cognitoIdentityId;
+    let user_id = "no_cognito"
+    if (context.identity && context.identity.cognitoIdentityId) {
+        user_id = context.identity.cognitoIdentityId;
+    } else if (event.headers['X-My-Cognito-Id']) {
+        user_id = event.headers['X-My-Cognito-Id'];
+    }
     return new Article(id, user_id, text);
 }
 

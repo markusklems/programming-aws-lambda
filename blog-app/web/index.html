@@ -1,0 +1,87 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Web Client</title>
+</head>
+
+<body>
+    <h1>Hello World</h1>
+    <script type="text/javascript" src="apiGateway-js-sdk/lib/axios/dist/axios.standalone.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk/lib/CryptoJS/rollups/sha256.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk/lib/CryptoJS/components/hmac.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk/lib/CryptoJS/components/enc-base64.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk/lib/url-template/url-template.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk/lib/apiGatewayCore/sigV4Client.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk/lib/apiGatewayCore/apiGatewayClient.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk/lib/apiGatewayCore/utils.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk/apigClient.js"></script>
+    <script type="text/javascript" src="aws-sdk/aws-sdk.js"></script>
+    <script>
+        // cognito
+        // Initialize the Amazon Cognito credentials provider
+        AWS.config.region = 'eu-central-1'; // Region
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: 'eu-central-1:0ccbe228-64d0-4cc0-9e31-7f2f358d9935',
+        });
+        var promiseToGetId = new Promise((resolve, reject) => {
+            AWS.config.credentials.getId((err, id) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(id);
+                }
+            });
+        });
+        var promiseToGetCredentials = (id) => {
+            return new Promise((resolve, reject) => {
+                AWS.config.credentials.get((err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        console.log(AWS.config.credentials);
+                        var accessKey = AWS.config.credentials.accessKeyId;
+                        var secretKey = AWS.config.credentials.secretAccessKey;
+                        var sessionToken = AWS.config.credentials.sessionToken;
+                        var credentials = {
+                            "accessKey": accessKey,
+                            "secretKey": secretKey,
+                            "sessionToken": sessionToken,
+                            "region": "eu-central-1",
+                            "myCognitoId": id
+                        }
+                        resolve(credentials);
+                    }
+                });
+            });
+        };
+
+        promiseToGetId.then(id => promiseToGetCredentials(id).then(credentials => callAPI(credentials)));
+
+        // api client
+        function callAPI(credentials) {
+            var apigClient = apigClientFactory.newClient(credentials);
+            var params = {};
+            var body = {
+                "article_id": "1",
+                "text": "hello from the web client"
+            };
+            var additionalParams = {
+                "headers": {
+                    "X-My-Cognito-Id": credentials.myCognitoId
+                }
+            };
+
+            apigClient.articlesPost(params, body, additionalParams)
+                .then(function(result) {
+                    console.log(result);
+                }).catch(function(error) {
+                    console.log("error", error);
+                });
+        }
+    </script>
+</body>
+
+</html>
