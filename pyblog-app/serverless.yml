@@ -24,24 +24,24 @@ functions:
       - http:
           path: articles
           method: post
-#  read:
-#    handler: articles/read.handler
-#    events:
-#      - http:
-#          path: articles
-#          method: get
-#  update:
-#    handler: articles/update.handler
-#    events:
-#      - http:
-#          path: articles
-#          method: put
-#  delete:
-#    handler: articles/delete.handler
-#    events:
-#      - http:
-#          path: articles
-#          method: delete
+  read:
+    handler: read.handler
+    events:
+      - http:
+          path: articles/{id}
+          method: get
+  update:
+    handler: update.handler
+    events:
+      - http:
+          path: articles
+          method: put
+  delete:
+    handler: delete.handler
+    events:
+      - http:
+          path: articles
+          method: delete
 
 resources:
   Resources:

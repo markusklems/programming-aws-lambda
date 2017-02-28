@@ -1,3 +1,4 @@
 {
-"body": "{\"article_id\":\"c7fe33a0-f546-11e6-9193-8b28521371f4\", \"text\": \"Hello Universe\"}"
+  "pathParameters": {"article_id": "d4b8d9f0-fdc6-11e6-9cc5-985aeb8c9bcc"},
+  "body": "{\"article_id\":\"82682c73-fdc7-11e6-8554-985aeb8c9bcc\", \"text\": \"Hello World\"}"
 }
