@@ -1,9 +1,11 @@
 import json
 
-def hello(event, context):
+def handler(event, context):
+
+    print('received event{}'.format(event))
+
     body = {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "input": event
+        "message": "Created new article"
     }
 
     response = {
