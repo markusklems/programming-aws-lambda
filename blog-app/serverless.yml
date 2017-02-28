@@ -8,40 +8,13 @@ provider:
   iamRoleStatements:
   - Effect: Allow
     Action:
+      - dynamodb:Scan
       - dynamodb:Query
       - dynamodb:GetItem
       - dynamodb:PutItem
       - dynamodb:UpdateItem
       - dynamodb:DeleteItem
     Resource: "arn:aws:dynamodb:eu-central-1:186706155491:table/BlogTable"
-
-# you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:PutObject"
-#      Resource:
-#        Fn::Join:
-#          - ""
-#          - - "arn:aws:s3:::"
-#            - "Ref" : "ServerlessDeploymentBucket"
-
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
-
-# you can add packaging information here
-#package:
-#  include:
-#    - include-me.js
-#    - include-me-dir/**
-#  exclude:
-#    - exclude-me.js
-#    - exclude-me-dir/**
 
 functions:
   createArticle:
@@ -51,7 +24,7 @@ functions:
           path: articles
           method: post
           cors: true
-  readArticle:
+  readOneArticle:
     handler: articles/read.handler
     events:
       - http:
@@ -72,17 +45,13 @@ functions:
           path: articles
           method: delete
           cors: true
-#      - s3: ${env:BUCKET}
-#      - schedule: rate(10 minutes)
-#      - sns: greeter-topic
-#      - stream: arn:aws:dynamodb:region:XXXXXX:table/foo/stream/1970-01-01T00:00:00.000
-#      - alexaSkill
-#      - iot:
-#          sql: "SELECT * FROM 'some_topic'"
-
-#    Define function environment variables here
-#    environment:
-#      variable2: value2
+  readAllArticles:
+    handler: articles/readAll.handler
+    events:
+      - http:
+          path: articles
+          method: get
+          cors: true
 
 # you can add CloudFormation resource templates here
 resources:

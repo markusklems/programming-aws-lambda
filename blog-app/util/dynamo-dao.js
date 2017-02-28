@@ -105,4 +105,30 @@ module.exports = class DynamoDAO {
             callback(null, response);
         });
     }
+
+    // caution: scan does not scale for large data sets!
+    // better use a data model with hash and range key and
+    // retrieve a range of records that belong to the hash key
+    // e.g., hash id = "landing_page_articles" and range key =
+    // article timestamp
+    readAll(callback) {
+        const params = {
+            TableName: this.table
+        };
+
+        this.dynamo.scan(params, (error, result) => {
+            if (error) {
+                console.error(error);
+                callback(new Error('Could not scan items.'));
+                return;
+            }
+
+            const response = {
+                statusCode: 200,
+                body: result.Items,
+            };
+
+            callback(null, response);
+        });
+    }
 }
