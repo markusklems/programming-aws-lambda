@@ -154,3 +154,6 @@ ENV/
 .ropeproject
 
 # End of https://www.gitignore.io/api/python,node
+
+# serverless
+.serverless
