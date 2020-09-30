@@ -1,3 +1,11 @@
+Python is an interpreted, high-level and general-purpose programming language. Created by Guido van Rossum and first released in 1991, Python's design philosophy emphasizes code readability with its notable use of significant whitespace. 
+
+Java is a class-based, object-oriented programming language that is designed to have as few implementation dependencies as possible.
+
+C# is a general-purpose, multi-paradigm programming language encompassing strong typing, lexically scoped, imperative, declarative, functional, generic, object-oriented, and component-oriented programming disciplines.
+
+Node.js is an open-source, cross-platform, back end, JavaScript runtime environment that executes JavaScript code outside a web browser. 
+
 Code examples for programming AWS Lambda with different programming languages:
 
 - Node.js / JavaScript
